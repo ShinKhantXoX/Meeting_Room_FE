@@ -5,9 +5,17 @@ import { formatBookingTime } from "./BookingForm";
 
 interface BookingListProps {
   refreshKey?: number;
+  startDate?: string;
+  endDate?: string;
+  userName?: string;
 }
 
-export default function BookingList({ refreshKey = 0 }: BookingListProps) {
+export default function BookingList({
+  refreshKey = 0,
+  startDate,
+  endDate,
+  userName,
+}: BookingListProps) {
   const [list, setList] = useState<Booking[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -16,7 +24,7 @@ export default function BookingList({ refreshKey = 0 }: BookingListProps) {
   const load = () => {
     setLoading(true);
     bookingsApi
-      .list()
+      .list({ startDate, endDate, userName })
       .then(setList)
       .catch((err) => setError(getApiError(err).message))
       .finally(() => setLoading(false));
@@ -24,7 +32,7 @@ export default function BookingList({ refreshKey = 0 }: BookingListProps) {
 
   useEffect(() => {
     load();
-  }, [refreshKey]);
+  }, [refreshKey, startDate, endDate, userName]);
 
   const canDelete = (b: Booking) => {
     if (user?.role === "admin" || user?.role === "owner") return true;

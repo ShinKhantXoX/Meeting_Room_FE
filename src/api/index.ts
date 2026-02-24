@@ -58,7 +58,20 @@ export const usersApi = {
 };
 
 export const bookingsApi = {
-  list: () => client.get<Booking[]>("/api/bookings").then((r) => r.data),
+  list: (params?: {
+    startDate?: string;
+    endDate?: string;
+    userName?: string;
+  }) => {
+    const q = new URLSearchParams();
+    if (params?.startDate) q.set("startDate", params.startDate);
+    if (params?.endDate) q.set("endDate", params.endDate);
+    if (params?.userName) q.set("userName", params.userName);
+    const qs = q.toString();
+    return client
+      .get<Booking[]>(`/api/bookings${qs ? `?${qs}` : ""}`)
+      .then((r) => r.data);
+  },
   listGroupedByUser: () =>
     client
       .get<

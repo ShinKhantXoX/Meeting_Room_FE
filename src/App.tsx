@@ -4,6 +4,7 @@ import LoginPage from "./pages/LoginPage";
 import BookingsPage from "./pages/BookingsPage";
 import AdminPage from "./pages/AdminPage";
 import SummaryPage from "./pages/SummaryPage";
+import RolesPage from "./pages/RolesPage";
 import { useAuth } from "./context/AuthContext";
 
 function Protected({ children }: { children: React.ReactNode }) {
@@ -39,6 +40,7 @@ export default function App() {
         }
       >
         <Route index element={<BookingsPage />} />
+        <Route path="roles" element={<RolesPage />} />
         <Route
           path="admin"
           element={

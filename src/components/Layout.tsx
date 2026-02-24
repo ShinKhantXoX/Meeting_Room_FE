@@ -19,6 +19,16 @@ export default function Layout() {
           >
             Bookings
           </NavLink>
+          <NavLink
+            to="/roles"
+            className={({ isActive }) =>
+              isActive
+                ? "font-medium text-blue-600"
+                : "text-gray-600 hover:text-gray-900"
+            }
+          >
+            Roles
+          </NavLink>
           {(user?.role === "admin" || user?.role === "owner") && (
             <NavLink
               to="/summary"
