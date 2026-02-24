@@ -1,11 +1,13 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import { authApi } from "../api";
 import { useAuth } from "../context/AuthContext";
 import RoleBadge from "../components/RoleBadge";
 import type { User } from "../api";
 
 export default function LoginPage() {
+  const { t } = useTranslation();
   const [users, setUsers] = useState<User[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -16,7 +18,7 @@ export default function LoginPage() {
     authApi
       .listUsersForLogin()
       .then(setUsers)
-      .catch(() => setError("Failed to load users"))
+      .catch(() => setError(t("login.failedToLoad")))
       .finally(() => setLoading(false));
   }, []);
 
@@ -33,7 +35,7 @@ export default function LoginPage() {
         navigate("/", { replace: true });
       })
       .catch((err) => {
-        setError(err.response?.data?.error?.message ?? "Login failed");
+        setError(err.response?.data?.error?.message ?? t("login.loginFailed"));
       });
   };
 
@@ -41,15 +43,15 @@ export default function LoginPage() {
 
   return (
     <div className="max-w-md mx-auto mt-16 p-6 bg-white rounded-lg shadow">
-      <h1 className="text-xl font-semibold mb-4">Meeting Room Booking</h1>
-      <p className="text-gray-600 mb-4">Select a user to sign in</p>
+      <h1 className="text-xl font-semibold mb-4">{t("login.title")}</h1>
+      <p className="text-gray-600 mb-4">{t("login.selectUser")}</p>
       {error && (
         <div className="mb-4 p-3 bg-red-50 text-red-700 rounded text-sm">
           {error}
         </div>
       )}
       {loading ? (
-        <p>Loading users...</p>
+        <p>{t("login.loadingUsers")}</p>
       ) : (
         <ul className="space-y-2">
           {users.map((u) => (

@@ -1,3 +1,5 @@
+import { useTranslation } from "react-i18next";
+
 type Role = "admin" | "owner" | "user";
 
 const styles: Record<Role, string> = {
@@ -7,13 +9,14 @@ const styles: Record<Role, string> = {
 };
 
 export default function RoleBadge({ role }: { role: string }) {
-  const r =
+  const { t } = useTranslation();
+  const r: Role =
     (role.toLowerCase() as Role) in styles
       ? (role.toLowerCase() as Role)
       : "user";
   return (
     <span className={`px-2 py-0.5 rounded text-xs font-medium ${styles[r]}`}>
-      {r}
+      {t(`roles.${r}`)}
     </span>
   );
 }

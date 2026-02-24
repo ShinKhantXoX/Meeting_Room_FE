@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { useTranslation } from "react-i18next";
 import { bookingsApi, getApiError } from "../api";
 import { formatBookingTime } from "../components/BookingForm";
 import UsageSummary from "../components/UsageSummary";
@@ -15,9 +16,11 @@ type GroupedItem = {
 };
 
 export default function SummaryPage() {
+  const { t, i18n } = useTranslation();
   const [grouped, setGrouped] = useState<GroupedItem[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const locale = i18n.language;
 
   useEffect(() => {
     bookingsApi
@@ -29,16 +32,18 @@ export default function SummaryPage() {
 
   return (
     <div>
-      <h1 className="text-xl font-semibold mb-4">Usage summary</h1>
+      <h1 className="text-xl font-semibold mb-4">{t("summary.title")}</h1>
       <UsageSummary />
-      <h2 className="text-lg font-medium mt-8 mb-3">Bookings by user</h2>
+      <h2 className="text-lg font-medium mt-8 mb-3">
+        {t("summary.bookingsByUser")}
+      </h2>
       {error && (
         <div className="mb-4 p-3 bg-red-50 text-red-700 rounded text-sm">
           {error}
         </div>
       )}
       {loading ? (
-        <p>Loading...</p>
+        <p>{t("summary.loading")}</p>
       ) : (
         <div className="space-y-6">
           {grouped.map((g) => (
@@ -50,8 +55,8 @@ export default function SummaryPage() {
               <ul className="space-y-1 text-sm text-gray-600">
                 {g.bookings.map((b) => (
                   <li key={b.id}>
-                    {formatBookingTime(b.startTime)} –{" "}
-                    {formatBookingTime(b.endTime)}
+                    {formatBookingTime(b.startTime, locale)} –{" "}
+                    {formatBookingTime(b.endTime, locale)}
                   </li>
                 ))}
               </ul>

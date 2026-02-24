@@ -1,0 +1,72 @@
+{
+  "nav": {
+    "bookings": "Bookings",
+    "roles": "Roles",
+    "summary": "Summary",
+    "users": "Users",
+    "logout": "Logout"
+  },
+  "login": {
+    "title": "Meeting Room Booking",
+    "selectUser": "Select a user to sign in",
+    "loadingUsers": "Loading users...",
+    "failedToLoad": "Failed to load users",
+    "loginFailed": "Login failed"
+  },
+  "bookings": {
+    "title": "Bookings",
+    "startDate": "Start date",
+    "endDate": "End date",
+    "userName": "User name",
+    "searchPlaceholder": "Search by user name",
+    "clear": "Clear",
+    "newBooking": "New booking",
+    "start": "Start",
+    "end": "End",
+    "create": "Create",
+    "creating": "Creating...",
+    "invalidRange": "End date and time must be after start date and time.",
+    "ok": "OK",
+    "loading": "Loading bookings...",
+    "noBookings": "No bookings yet.",
+    "delete": "Delete"
+  },
+  "users": {
+    "title": "User management",
+    "name": "Name",
+    "role": "Role",
+    "newUserPlaceholder": "New user name",
+    "addUser": "Add user",
+    "actions": "Actions",
+    "loading": "Loading users..."
+  },
+  "roles": {
+    "title": "Role Definitions",
+    "intro": "This page describes what each role can do in the application.",
+    "admin": "admin",
+    "owner": "owner",
+    "user": "user",
+    "adminDesc": "Full access to the application.",
+    "ownerDesc": "Elevated access for viewing and managing bookings.",
+    "userDesc": "Basic access for personal booking management.",
+    "permissions": {
+      "adminManage": "Manage users (create, edit roles, delete)",
+      "adminSummary": "View summary",
+      "adminBookings": "Create and delete any booking",
+      "ownerSummary": "View summary",
+      "ownerGrouped": "View bookings grouped by user",
+      "ownerDelete": "Delete any booking",
+      "userCreate": "Create bookings",
+      "userView": "View all bookings",
+      "userDeleteOwn": "Delete own bookings only"
+    }
+  },
+  "summary": {
+    "title": "Usage summary",
+    "bookingsByUser": "Bookings by user",
+    "loading": "Loading...",
+    "loadingSummary": "Loading summary...",
+    "user": "User",
+    "totalBookings": "Total bookings"
+  }
+}

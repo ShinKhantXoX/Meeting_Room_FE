@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useTranslation } from "react-i18next";
 
 interface BookingFormProps {
   onSubmit: (startTime: string, endTime: string) => Promise<void>;
@@ -20,6 +21,7 @@ export default function BookingForm({
   error,
   clearError,
 }: BookingFormProps) {
+  const { t } = useTranslation();
   const now = new Date();
   const defaultStart = new Date(now.getTime() + 60 * 60 * 1000);
   defaultStart.setMinutes(0, 0, 0);
@@ -39,9 +41,7 @@ export default function BookingForm({
     const startDate = new Date(start);
     const endDate = new Date(end);
     if (startDate >= endDate) {
-      setInvalidRangeMessage(
-        "End date and time must be after start date and time.",
-      );
+      setInvalidRangeMessage(t("bookings.invalidRange"));
       return;
     }
     setSubmitting(true);
@@ -65,7 +65,7 @@ export default function BookingForm({
               onClick={() => setInvalidRangeMessage(null)}
               className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
             >
-              OK
+              {t("bookings.ok")}
             </button>
           </div>
         </div>
@@ -74,7 +74,7 @@ export default function BookingForm({
         onSubmit={handleSubmit}
         className="mb-6 p-4 bg-white rounded border border-gray-200"
       >
-        <h2 className="font-medium mb-3">New booking</h2>
+        <h2 className="font-medium mb-3">{t("bookings.newBooking")}</h2>
         {error && (
           <div className="mb-3 p-2 bg-red-50 text-red-700 rounded text-sm">
             {error}
@@ -82,7 +82,7 @@ export default function BookingForm({
         )}
         <div className="flex flex-wrap items-end gap-4">
           <label className="flex flex-col gap-1">
-            <span className="text-sm text-gray-600">Start</span>
+            <span className="text-sm text-gray-600">{t("bookings.start")}</span>
             <input
               type="datetime-local"
               value={start}
@@ -92,7 +92,7 @@ export default function BookingForm({
             />
           </label>
           <label className="flex flex-col gap-1">
-            <span className="text-sm text-gray-600">End</span>
+            <span className="text-sm text-gray-600">{t("bookings.end")}</span>
             <input
               type="datetime-local"
               value={end}
@@ -106,7 +106,7 @@ export default function BookingForm({
             disabled={submitting}
             className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 disabled:opacity-50"
           >
-            {submitting ? "Creating..." : "Create"}
+            {submitting ? t("bookings.creating") : t("bookings.create")}
           </button>
         </div>
       </form>
@@ -114,8 +114,8 @@ export default function BookingForm({
   );
 }
 
-export function formatBookingTime(iso: string): string {
-  return new Date(iso).toLocaleString(undefined, {
+export function formatBookingTime(iso: string, locale?: string): string {
+  return new Date(iso).toLocaleString(locale ?? undefined, {
     dateStyle: "short",
     timeStyle: "short",
   });

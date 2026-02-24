@@ -1,4 +1,5 @@
 import { Outlet, NavLink, useLocation } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import { AnimatePresence } from "framer-motion";
 import { LogOut, CalendarDays, Shield, BarChart3, Users } from "lucide-react";
 import PageTransition from "./PageTransition";
@@ -6,6 +7,7 @@ import { useAuth } from "../context/AuthContext";
 import RoleBadge from "./RoleBadge";
 
 export default function Layout() {
+  const { t, i18n } = useTranslation();
   const { user, logout } = useAuth();
   const location = useLocation();
 
@@ -20,17 +22,19 @@ export default function Layout() {
             }
           >
             <CalendarDays size={16} />
-            Bookings
+            {t("nav.bookings")}
           </NavLink>
-          <NavLink
-            to="/roles"
-            className={({ isActive }) =>
-              `flex items-center gap-1.5 ${isActive ? "font-medium text-blue-600" : "text-gray-600 hover:text-gray-900"}`
-            }
-          >
-            <Shield size={16} />
-            Roles
-          </NavLink>
+          {(user?.role === "admin" || user?.role === "owner") && (
+            <NavLink
+              to="/roles"
+              className={({ isActive }) =>
+                `flex items-center gap-1.5 ${isActive ? "font-medium text-blue-600" : "text-gray-600 hover:text-gray-900"}`
+              }
+            >
+              <Shield size={16} />
+              {t("nav.roles")}
+            </NavLink>
+          )}
           {(user?.role === "admin" || user?.role === "owner") && (
             <NavLink
               to="/summary"
@@ -39,7 +43,7 @@ export default function Layout() {
               }
             >
               <BarChart3 size={16} />
-              Summary
+              {t("nav.summary")}
             </NavLink>
           )}
           {user?.role === "admin" && (
@@ -50,11 +54,28 @@ export default function Layout() {
               }
             >
               <Users size={16} />
-              Users
+              {t("nav.users")}
             </NavLink>
           )}
         </nav>
         <div className="flex items-center gap-3">
+          <div className="flex items-center gap-2">
+            <button
+              type="button"
+              onClick={() => i18n.changeLanguage("en")}
+              className={`text-sm ${i18n.language === "en" ? "font-medium text-blue-600" : "text-gray-500 hover:text-gray-700"}`}
+            >
+              EN
+            </button>
+            <span className="text-gray-300">|</span>
+            <button
+              type="button"
+              onClick={() => i18n.changeLanguage("my")}
+              className={`text-sm ${i18n.language === "my" ? "font-medium text-blue-600" : "text-gray-500 hover:text-gray-700"}`}
+            >
+              မြန်မာ
+            </button>
+          </div>
           <span className="text-gray-700">{user?.name}</span>
           <RoleBadge role={user?.role ?? "user"} />
           <button
@@ -63,7 +84,7 @@ export default function Layout() {
             className="flex items-center gap-1.5 text-sm text-gray-500 hover:text-gray-700"
           >
             <LogOut size={16} />
-            Logout
+            {t("nav.logout")}
           </button>
         </div>
       </header>

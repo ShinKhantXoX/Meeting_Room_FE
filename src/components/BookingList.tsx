@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { useTranslation } from "react-i18next";
 import { Trash2 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { bookingsApi, getApiError, type Booking } from "../api";
@@ -18,10 +19,12 @@ export default function BookingList({
   endDate,
   userName,
 }: BookingListProps) {
+  const { t, i18n } = useTranslation();
   const [list, setList] = useState<Booking[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const { user } = useAuth();
+  const locale = i18n.language;
 
   const load = () => {
     setLoading(true);
@@ -51,14 +54,14 @@ export default function BookingList({
     }
   };
 
-  if (loading) return <p>Loading bookings...</p>;
+  if (loading) return <p>{t("bookings.loading")}</p>;
   if (error)
     return <div className="p-3 bg-red-50 text-red-700 rounded">{error}</div>;
 
   return (
     <motion.ul layout className="space-y-2">
       {list.length === 0 ? (
-        <li className="text-gray-500">No bookings yet.</li>
+        <li className="text-gray-500">{t("bookings.noBookings")}</li>
       ) : (
         <AnimatePresence mode="popLayout">
           {list.map((b) => (
@@ -73,11 +76,11 @@ export default function BookingList({
             >
               <div>
                 <span className="font-medium">
-                  {formatBookingTime(b.startTime)}
+                  {formatBookingTime(b.startTime, locale)}
                 </span>
                 <span className="text-gray-500"> – </span>
                 <span className="font-medium">
-                  {formatBookingTime(b.endTime)}
+                  {formatBookingTime(b.endTime, locale)}
                 </span>
                 {b.user && (
                   <span className="ml-2 text-gray-600">({b.user.name})</span>
@@ -90,7 +93,7 @@ export default function BookingList({
                   className="flex items-center gap-1.5 text-red-600 hover:text-red-800 text-sm"
                 >
                   <Trash2 size={16} />
-                  Delete
+                  {t("bookings.delete")}
                 </button>
               )}
             </motion.li>

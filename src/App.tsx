@@ -48,7 +48,14 @@ export default function App() {
         }
       >
         <Route index element={<BookingsPage />} />
-        <Route path="roles" element={<RolesPage />} />
+        <Route
+          path="roles"
+          element={
+            <OwnerOrAdmin>
+              <RolesPage />
+            </OwnerOrAdmin>
+          }
+        />
         <Route
           path="admin"
           element={

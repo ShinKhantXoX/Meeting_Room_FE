@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { useTranslation } from "react-i18next";
 import { bookingsApi, getApiError } from "../api";
 
 interface SummaryItem {
@@ -8,6 +9,7 @@ interface SummaryItem {
 }
 
 export default function UsageSummary() {
+  const { t } = useTranslation();
   const [summary, setSummary] = useState<SummaryItem[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -20,7 +22,7 @@ export default function UsageSummary() {
       .finally(() => setLoading(false));
   }, []);
 
-  if (loading) return <p>Loading summary...</p>;
+  if (loading) return <p>{t("summary.loadingSummary")}</p>;
   if (error)
     return <div className="p-3 bg-red-50 text-red-700 rounded">{error}</div>;
 
@@ -28,9 +30,11 @@ export default function UsageSummary() {
     <table className="w-full border-collapse bg-white border border-gray-200 rounded">
       <thead>
         <tr className="bg-gray-50">
-          <th className="text-left p-3 border-b">User</th>
-          <th className="text-left p-3 border-b">Role</th>
-          <th className="text-left p-3 border-b">Total bookings</th>
+          <th className="text-left p-3 border-b">{t("summary.user")}</th>
+          <th className="text-left p-3 border-b">{t("users.role")}</th>
+          <th className="text-left p-3 border-b">
+            {t("summary.totalBookings")}
+          </th>
         </tr>
       </thead>
       <tbody>
