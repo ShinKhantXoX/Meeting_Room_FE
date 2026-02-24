@@ -1,6 +1,5 @@
 import { Outlet, NavLink, useLocation } from "react-router-dom";
 import { useTranslation } from "react-i18next";
-import { AnimatePresence } from "framer-motion";
 import { LogOut, CalendarDays, Shield, BarChart3, Users } from "lucide-react";
 import PageTransition from "./PageTransition";
 import { useAuth } from "../context/AuthContext";
@@ -89,11 +88,9 @@ export default function Layout() {
         </div>
       </header>
       <main className="flex-1 p-6">
-        <AnimatePresence mode="wait">
-          <PageTransition key={location.pathname}>
-            <Outlet />
-          </PageTransition>
-        </AnimatePresence>
+        <PageTransition key={location.pathname}>
+          <Outlet />
+        </PageTransition>
       </main>
     </div>
   );
