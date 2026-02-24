@@ -1,9 +1,13 @@
-import { Outlet, NavLink } from "react-router-dom";
+import { Outlet, NavLink, useLocation } from "react-router-dom";
+import { AnimatePresence } from "framer-motion";
+import { LogOut, CalendarDays, Shield, BarChart3, Users } from "lucide-react";
+import PageTransition from "./PageTransition";
 import { useAuth } from "../context/AuthContext";
 import RoleBadge from "./RoleBadge";
 
 export default function Layout() {
   const { user, logout } = useAuth();
+  const location = useLocation();
 
   return (
     <div className="min-h-screen flex flex-col">
@@ -12,32 +16,29 @@ export default function Layout() {
           <NavLink
             to="/"
             className={({ isActive }) =>
-              isActive
-                ? "font-medium text-blue-600"
-                : "text-gray-600 hover:text-gray-900"
+              `flex items-center gap-1.5 ${isActive ? "font-medium text-blue-600" : "text-gray-600 hover:text-gray-900"}`
             }
           >
+            <CalendarDays size={16} />
             Bookings
           </NavLink>
           <NavLink
             to="/roles"
             className={({ isActive }) =>
-              isActive
-                ? "font-medium text-blue-600"
-                : "text-gray-600 hover:text-gray-900"
+              `flex items-center gap-1.5 ${isActive ? "font-medium text-blue-600" : "text-gray-600 hover:text-gray-900"}`
             }
           >
+            <Shield size={16} />
             Roles
           </NavLink>
           {(user?.role === "admin" || user?.role === "owner") && (
             <NavLink
               to="/summary"
               className={({ isActive }) =>
-                isActive
-                  ? "font-medium text-blue-600"
-                  : "text-gray-600 hover:text-gray-900"
+                `flex items-center gap-1.5 ${isActive ? "font-medium text-blue-600" : "text-gray-600 hover:text-gray-900"}`
               }
             >
+              <BarChart3 size={16} />
               Summary
             </NavLink>
           )}
@@ -45,11 +46,10 @@ export default function Layout() {
             <NavLink
               to="/admin"
               className={({ isActive }) =>
-                isActive
-                  ? "font-medium text-blue-600"
-                  : "text-gray-600 hover:text-gray-900"
+                `flex items-center gap-1.5 ${isActive ? "font-medium text-blue-600" : "text-gray-600 hover:text-gray-900"}`
               }
             >
+              <Users size={16} />
               Users
             </NavLink>
           )}
@@ -60,14 +60,19 @@ export default function Layout() {
           <button
             type="button"
             onClick={logout}
-            className="text-sm text-gray-500 hover:text-gray-700"
+            className="flex items-center gap-1.5 text-sm text-gray-500 hover:text-gray-700"
           >
+            <LogOut size={16} />
             Logout
           </button>
         </div>
       </header>
       <main className="flex-1 p-6">
-        <Outlet />
+        <AnimatePresence mode="wait">
+          <PageTransition key={location.pathname}>
+            <Outlet />
+          </PageTransition>
+        </AnimatePresence>
       </main>
     </div>
   );

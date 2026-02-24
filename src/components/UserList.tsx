@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { Trash2, UserPlus } from "lucide-react";
 import { usersApi, getApiError, type User } from "../api";
 
 export default function UserList() {
@@ -99,8 +100,9 @@ export default function UserList() {
         <button
           type="submit"
           disabled={submitting}
-          className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 disabled:opacity-50"
+          className="flex items-center gap-1.5 px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 disabled:opacity-50"
         >
+          <UserPlus size={16} />
           Add user
         </button>
       </form>
@@ -131,8 +133,9 @@ export default function UserList() {
                 <button
                   type="button"
                   onClick={() => handleDelete(u.id)}
-                  className="text-red-600 hover:text-red-800 text-sm"
+                  className="flex items-center gap-1.5 text-red-600 hover:text-red-800 text-sm"
                 >
+                  <Trash2 size={16} />
                   Delete
                 </button>
               </td>

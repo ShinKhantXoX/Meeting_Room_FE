@@ -1,4 +1,5 @@
 import { useCallback, useState } from "react";
+import { FilterX } from "lucide-react";
 import { bookingsApi, getApiError } from "../api";
 import BookingForm from "../components/BookingForm";
 import BookingList from "../components/BookingList";
@@ -70,8 +71,9 @@ export default function BookingsPage() {
         <button
           type="button"
           onClick={handleClearFilters}
-          className="text-sm text-gray-600 hover:text-gray-900"
+          className="flex items-center gap-1.5 text-sm text-gray-600 hover:text-gray-900"
         >
+          <FilterX size={16} />
           Clear
         </button>
       </div>

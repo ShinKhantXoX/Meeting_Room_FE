@@ -1,4 +1,6 @@
 import { useState, useEffect } from "react";
+import { Trash2 } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
 import { bookingsApi, getApiError, type Booking } from "../api";
 import { useAuth } from "../context/AuthContext";
 import { formatBookingTime } from "./BookingForm";
@@ -54,39 +56,47 @@ export default function BookingList({
     return <div className="p-3 bg-red-50 text-red-700 rounded">{error}</div>;
 
   return (
-    <ul className="space-y-2">
+    <motion.ul layout className="space-y-2">
       {list.length === 0 ? (
         <li className="text-gray-500">No bookings yet.</li>
       ) : (
-        list.map((b) => (
-          <li
-            key={b.id}
-            className="flex items-center justify-between p-4 bg-white border border-gray-200 rounded"
-          >
-            <div>
-              <span className="font-medium">
-                {formatBookingTime(b.startTime)}
-              </span>
-              <span className="text-gray-500"> – </span>
-              <span className="font-medium">
-                {formatBookingTime(b.endTime)}
-              </span>
-              {b.user && (
-                <span className="ml-2 text-gray-600">({b.user.name})</span>
+        <AnimatePresence mode="popLayout">
+          {list.map((b) => (
+            <motion.li
+              key={b.id}
+              layout
+              initial={{ opacity: 0, scale: 0.95 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, x: -20 }}
+              transition={{ duration: 0.2 }}
+              className="flex items-center justify-between p-4 bg-white border border-gray-200 rounded"
+            >
+              <div>
+                <span className="font-medium">
+                  {formatBookingTime(b.startTime)}
+                </span>
+                <span className="text-gray-500"> – </span>
+                <span className="font-medium">
+                  {formatBookingTime(b.endTime)}
+                </span>
+                {b.user && (
+                  <span className="ml-2 text-gray-600">({b.user.name})</span>
+                )}
+              </div>
+              {canDelete(b) && (
+                <button
+                  type="button"
+                  onClick={() => handleDelete(b.id)}
+                  className="flex items-center gap-1.5 text-red-600 hover:text-red-800 text-sm"
+                >
+                  <Trash2 size={16} />
+                  Delete
+                </button>
               )}
-            </div>
-            {canDelete(b) && (
-              <button
-                type="button"
-                onClick={() => handleDelete(b.id)}
-                className="text-red-600 hover:text-red-800 text-sm"
-              >
-                Delete
-              </button>
-            )}
-          </li>
-        ))
+            </motion.li>
+          ))}
+        </AnimatePresence>
       )}
-    </ul>
+    </motion.ul>
   );
 }

@@ -1,5 +1,6 @@
 import { Routes, Route, Navigate } from "react-router-dom";
 import Layout from "./components/Layout";
+import PageTransition from "./components/PageTransition";
 import LoginPage from "./pages/LoginPage";
 import BookingsPage from "./pages/BookingsPage";
 import AdminPage from "./pages/AdminPage";
@@ -30,7 +31,14 @@ function OwnerOrAdmin({ children }: { children: React.ReactNode }) {
 export default function App() {
   return (
     <Routes>
-      <Route path="/login" element={<LoginPage />} />
+      <Route
+        path="/login"
+        element={
+          <PageTransition key="/login">
+            <LoginPage />
+          </PageTransition>
+        }
+      />
       <Route
         path="/"
         element={

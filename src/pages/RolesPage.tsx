@@ -1,3 +1,5 @@
+import { motion } from "framer-motion";
+
 export default function RolesPage() {
   const roles = [
     {
@@ -36,9 +38,12 @@ export default function RolesPage() {
         This page describes what each role can do in the application.
       </p>
       <div className="space-y-4">
-        {roles.map((role) => (
-          <div
+        {roles.map((role, index) => (
+          <motion.div
             key={role.name}
+            initial={{ opacity: 0, y: 16 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.3, delay: index * 0.1 }}
             className="p-4 bg-white border border-gray-200 rounded"
           >
             <h2 className="font-medium text-gray-900 capitalize mb-1">
@@ -50,7 +55,7 @@ export default function RolesPage() {
                 <li key={perm}>{perm}</li>
               ))}
             </ul>
-          </div>
+          </motion.div>
         ))}
       </div>
     </div>
